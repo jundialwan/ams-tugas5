@@ -1,5 +1,4 @@
 import re
-import csv
 from data import load_data
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
@@ -17,20 +16,8 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.pipeline import Pipeline
 
-csv.field_size_limit(500000)
-
 # load data from given csv file
 train_sentences, train_labels = load_data('fake_train.csv')
-
-countries = []
-
-with open('countries.csv', 'rU') as file:
-    reader = csv.DictReader(file)
-    for row in reader:
-        try:
-            countries.append(row['country'])
-        except:
-            continue
 
 cleaned_train_sentences = []
 
