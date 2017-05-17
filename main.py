@@ -41,7 +41,7 @@ for sentence in train_sentences:
 #   MLPClassifier()
 #   xgb.XGBClassifier()
 #	GradientBoostingClassifier()
-algoritm = GradientBoostingClassifier(n_estimators=1000, max_depth=3, learning_rate=0.1, random_state=3)
+algoritm = xgb.XGBClassifier()
 
 model = Pipeline([
     ('vectorizing', CountVectorizer(stop_words='english')),
@@ -52,7 +52,7 @@ model.fit(cleaned_train_sentences, train_labels)
 # load test data from given csv
 test_sentences, test_labels = load_data('fake_test.csv')
 
-prediction = model.predict(test_sentences.toArray())
+prediction = model.predict(test_sentences)
 
 accuracy = accuracy_score(test_labels, prediction)
 
