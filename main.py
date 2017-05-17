@@ -19,7 +19,7 @@ import xgboost as xgb
 
 # load data from given csv file
 train_sentences, train_labels = load_data('fake_train.csv')
-
+"""
 cleaned_train_sentences = []
 
 for sentence in train_sentences:
@@ -32,22 +32,27 @@ for sentence in train_sentences:
             free_stopwords_sentence.append(word)
 
     cleaned_train_sentences.append(' '.join(free_stopwords_sentence))
-
+"""
 # algoritm used
 #   LogisticRegression()
 #   KNeighborsClassifier(n_neighbors=3)
 #   MultinomialNB()
 #   RandomForestClassifier()
 #   MLPClassifier()
-#   xgb.XGBClassifier()
-#	GradientBoostingClassifier()
+#	xgb.XGBClassifier()
 algoritm = xgb.XGBClassifier()
 
+# vectorizing:
+#   TfidfVectorizer(stop_words='english', smooth_idf=False)
+#   TfidfVectorizer(stop_words=None, smooth_idf=False)
+#	CountVectorizer(stop_words='english')
+#	CountVectorizer(stop_words=None)
+
 model = Pipeline([
-    ('vectorizing', CountVectorizer(stop_words='english')),
+    ('vectorizing', CountVectorizer(stop_words=None)),
     ('classifying', algoritm)])
 
-model.fit(cleaned_train_sentences, train_labels)
+model.fit(train_sentences, train_labels)
 
 # load test data from given csv
 test_sentences, test_labels = load_data('fake_test.csv')
