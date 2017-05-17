@@ -2,7 +2,7 @@ import re
 from data import load_data
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
-from stemming.porter2 import stem
+#from stemming.porter2 import stem
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.ensemble import AdaBoostClassifier #For Classification
@@ -11,10 +11,11 @@ from sklearn.svm import LinearSVC
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import MultinomialNB # .61
-from sklearn.ensemble import RandomForestClassifier, VotingClassifier
+from sklearn.ensemble import RandomForestClassifier, VotingClassifier, GradientBoostingClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.pipeline import Pipeline
+import xgboost as xgb
 
 # load data from given csv file
 train_sentences, train_labels = load_data('fake_train.csv')
@@ -38,8 +39,9 @@ for sentence in train_sentences:
 #   MultinomialNB()
 #   RandomForestClassifier()
 #   MLPClassifier()
-
-algoritm = LogisticRegression()
+#   xgb.XGBClassifier()
+#	GradientBoostingClassifier()
+algoritm = GradientBoostingClassifier(n_estimators=1000, max_depth=3, learning_rate=0.1, random_state=3)
 
 model = Pipeline([
     ('vectorizing', CountVectorizer(stop_words='english')),
@@ -50,7 +52,7 @@ model.fit(cleaned_train_sentences, train_labels)
 # load test data from given csv
 test_sentences, test_labels = load_data('fake_test.csv')
 
-prediction = model.predict(test_sentences)
+prediction = model.predict(test_sentences.toArray())
 
 accuracy = accuracy_score(test_labels, prediction)
 
